@@ -17,30 +17,27 @@ fun main() {
     }
 
     fun part2(input: List<String>): Int {
-        var startingPosition = 50
-        var crossZero = 0
+        var pos = 50
+        var hits = 0
 
         input.forEach { line ->
-            val direction = line.takeWhile { it.isLetter() }
-            val stepsInstruction = line.dropWhile { it.isLetter() }.toInt()
+            val dir = if (line.startsWith("R")) 1 else -1
+            val steps = line.drop(1).toInt()
 
-            val dir = if (direction == "R") 1 else -1
+            val distanceToZero =
+                if (dir == 1) (100 - pos) % 100 else pos % 100
 
-            crossZero += stepsInstruction / 100
+            val firstHit = if (distanceToZero == 0) 100 else distanceToZero
 
-            val remainder = stepsInstruction % 100
-
-            val hitZero = if (direction == "L") {
-                startingPosition in 1..remainder
-            } else {
-                (100 - startingPosition) in 1..remainder
+            if (steps >= firstHit) {
+                hits += 1 + (steps - firstHit) / 100
             }
-            if (hitZero) crossZero++
 
-            startingPosition = ((startingPosition + dir * remainder) % 100 + 100) % 100
+            pos = Math.floorMod(pos + dir * steps, 100)
         }
 
-        return crossZero
+        return hits
+
     }
 
 
