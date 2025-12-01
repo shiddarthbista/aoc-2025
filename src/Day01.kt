@@ -2,24 +2,18 @@ fun main() {
 
 
     fun part1(input: List<String>): Int {
-        var zero = 0
-        var startingPosition = 50
+        var position = 50
+        var zeros = 0
 
-        input.forEach { it ->
-            val direction = it.takeWhile { it.isLetter() }
-            val stepsInstruction = it.dropWhile { it.isLetter() }.toInt()
+        input.forEach { line ->
+            val direction = if (line.startsWith("R")) 1 else -1
+            val steps = line.drop(1).toInt()
 
-            val steps = if(stepsInstruction >= 100) stepsInstruction % 100 else stepsInstruction
+            position = Math.floorMod(position + direction * steps, 100)
 
-            if (direction == "L") startingPosition -= steps else startingPosition += steps
-            if (startingPosition < 0) {
-                startingPosition += 100
-            } else if (startingPosition > 99) {
-                startingPosition -= 100
-            }
-            if (startingPosition == 0) zero ++
+            if (position == 0) zeros++
         }
-        return zero
+        return zeros
     }
 
     fun part2(input: List<String>): Int {
