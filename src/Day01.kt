@@ -1,19 +1,16 @@
 fun main() {
-
-
+    
     fun part1(input: List<String>): Int {
         var position = 50
-        var zeros = 0
 
-        input.forEach { line ->
+        return input.count { line ->
             val direction = if (line.startsWith("R")) 1 else -1
             val steps = line.drop(1).toInt()
 
             position = Math.floorMod(position + direction * steps, 100)
 
-            if (position == 0) zeros++
+            position == 0
         }
-        return zeros
     }
 
     fun part2(input: List<String>): Int {
@@ -39,7 +36,6 @@ fun main() {
         return hits
 
     }
-
 
     // Or read a large test input from the `src/Day01_test.txt` file:
     val testInput = readInput("Day01_test")
