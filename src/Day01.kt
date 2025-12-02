@@ -1,5 +1,5 @@
 fun main() {
-    
+
     fun part1(input: List<String>): Int {
         var position = 50
 

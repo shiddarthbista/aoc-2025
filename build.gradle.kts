@@ -13,3 +13,9 @@ tasks {
         gradleVersion = "9.2.1"
     }
 }
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
