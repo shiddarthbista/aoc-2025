@@ -8,7 +8,7 @@ fun main() {
     }
 
     fun part1(input: List<String>): Long {
-        val ranges = input.joinToString("")            
+        val ranges = input.joinToString("")
             .split(",")
             .filter { it.isNotBlank() }
             .map { range ->
