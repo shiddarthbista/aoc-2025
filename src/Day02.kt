@@ -7,7 +7,7 @@ fun main() {
         return string.take(mid) == string.drop(mid)
     }
 
-    fun part1(input: List<String>): Long {
+    fun getValidRanges(input: List<String>): List<LongRange> {
         val ranges = input.joinToString("")
             .split(",")
             .filter { it.isNotBlank() }
@@ -15,6 +15,31 @@ fun main() {
                 val (start, end) = range.split("-")
                 start.toLong()..end.toLong()
             }
+        return ranges
+    }
+
+    fun isRepeatedAtLeastTwice(number: Long) : Boolean {
+        val string = number.toString()
+        val maxChunks = string.length / 2
+
+//        for (size in 1..maxChunks) {
+//            val chunk = string.take(size)
+//            val repeated = chunk.repeat(string.length / size)
+//            if (repeated == string) return true
+//        }
+//
+//        return false
+
+        for (size in 1..maxChunks){
+            val chunks = string.chunked(size)
+            if ( chunks.all { it == chunks.first() } ) return true
+        }
+
+        return false
+    }
+
+    fun part1(input: List<String>): Long {
+        val ranges = getValidRanges(input)
 
         return ranges.sumOf { range ->
             range.asSequence()
@@ -23,8 +48,16 @@ fun main() {
         }
     }
 
-    fun part2(input: List<String>): Int {
-        return 6
+    fun part2(input: List<String>): Long {
+
+        val ranges = getValidRanges(input)
+
+        return ranges.sumOf { range ->
+            range.asSequence()
+                .filter(::isRepeatedAtLeastTwice)
+                .sum()
+        }
+
     }
 
 
@@ -33,7 +66,7 @@ fun main() {
     part1(testInput).println()
     part2(testInput).println()
     check(part1(testInput) == 1227775554L)
-    check(part2(testInput) == 6)
+    check(part2(testInput) == 4174379265L)
 
     // Read the input from the `src/Day01.txt` file.
     val input = readInput("Day02")
